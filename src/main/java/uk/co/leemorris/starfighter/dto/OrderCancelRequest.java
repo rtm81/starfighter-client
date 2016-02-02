@@ -5,13 +5,9 @@ package uk.co.leemorris.starfighter.dto;
  */
 public class OrderCancelRequest {
 
-    private String venue;
-    private String stock;
-    private int orderId;
-
-    private OrderCancelRequest() {
-
-    }
+    private final String venue;
+    private final String stock;
+    private final int orderId;
 
     public OrderCancelRequest(String venue, String stock, int orderId) {
         this.venue = venue;
@@ -23,23 +19,11 @@ public class OrderCancelRequest {
         return venue;
     }
 
-    public void setVenue(String venue) {
-        this.venue = venue;
-    }
-
     public String getStock() {
         return stock;
     }
 
-    public void setStock(String stock) {
-        this.stock = stock;
-    }
-
     public int getOrderId() {
         return orderId;
-    }
-
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
     }
 }

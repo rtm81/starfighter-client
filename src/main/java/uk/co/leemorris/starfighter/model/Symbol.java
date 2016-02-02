@@ -8,8 +8,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Symbol {
 
-    private String name;
-    private String symbol;
+    private final String name;
+    private final String symbol;
 
     @JsonCreator
     public Symbol(@JsonProperty("name") String name, @JsonProperty("symbol") String symbol) {

@@ -12,8 +12,8 @@ import java.util.List;
  */
 public class OrderStatusList extends BaseResponse {
 
-    private String venue;
-    private List<OrderStatus> orders;
+    private final String venue;
+    private final List<OrderStatus> orders;
 
     @JsonCreator
     public OrderStatusList(@JsonProperty("ok") boolean ok,

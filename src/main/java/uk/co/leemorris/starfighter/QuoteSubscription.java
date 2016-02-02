@@ -18,11 +18,10 @@ import java.net.URI;
  * @author lmorris
  */
 @WebSocket
-public class QuoteSubscription implements WebSocketListener {
+class QuoteSubscription implements WebSocketListener {
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
     private WebSocketClient webSocketClient;
-    private String baseUrl;
     private Session session;
 
     private Subscriber<? super StockQuote> quoteSubscriber;
@@ -54,7 +53,6 @@ public class QuoteSubscription implements WebSocketListener {
                     webSocketClient.start();
                     webSocketClient.connect(QuoteSubscription.this, uri);
                 } catch (Exception ex) {
-                    ex.printStackTrace();
                     if(!quoteSubscriber.isUnsubscribed()) {
                         subscriber.onError(ex);
                     }
@@ -72,11 +70,10 @@ public class QuoteSubscription implements WebSocketListener {
 
     @Override
     public void onWebSocketText(String msg) {
-        System.out.println(msg);
         try {
-            QuoteSubscriptionWrapper wrapper = objectMapper.readValue(msg, QuoteSubscriptionWrapper.class);
 
             if(!quoteSubscriber.isUnsubscribed()) {
+            	QuoteSubscriptionWrapper wrapper = objectMapper.readValue(msg, QuoteSubscriptionWrapper.class);
                 quoteSubscriber.onNext(wrapper.getQuote());
             }
         } catch (IOException e) {
@@ -89,16 +86,20 @@ public class QuoteSubscription implements WebSocketListener {
     @Override
     public void onWebSocketClose(int statusCode, String reason) {
         System.out.println(statusCode + " " + reason);
+        if(!quoteSubscriber.isUnsubscribed()) {
+            quoteSubscriber.onCompleted();
+        }
     }
 
     @Override
     public void onWebSocketConnect(Session session) {
         this.session = session;
-        System.out.println("Connected");
     }
 
     @Override
     public void onWebSocketError(Throwable throwable) {
-        throwable.printStackTrace();
+        if(!quoteSubscriber.isUnsubscribed()) {
+            quoteSubscriber.onError(throwable);
+        }
     }
 }

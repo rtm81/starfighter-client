@@ -12,8 +12,7 @@ import java.util.List;
  */
 public class VenueStocks extends BaseResponse {
 
-    private boolean ok;
-    private List<Symbol> symbols;
+    private final List<Symbol> symbols;
 
     @JsonCreator
     public VenueStocks(@JsonProperty("ok") boolean ok,

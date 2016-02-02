@@ -19,7 +19,7 @@ import static org.junit.Assert.fail;
 public class QuoteSubscriptionTest {
 
     public QuoteSubscriptionTest() throws Exception {
-        TestWebsocketServer testWebsocketServer; testWebsocketServer = new TestWebsocketServer(8091, "tickertape.txt");
+        TestWebsocketServer testWebsocketServer = new TestWebsocketServer(8091, "tickertape.txt");
         testWebsocketServer.start();
     }
 

@@ -13,19 +13,19 @@ import java.util.List;
  */
 public class OrderCancelResponse extends BaseResponse {
 
-    private String symbol;
-    private String venue;
-    private Direction direction;
-    private int originalQty;
-    private int qty;
-    private int price;
-    private OrderType orderType;
-    private int id;
-    private String account;
-    private Date ts;
-    private List<Fill> fills;
-    private int totalFilled;
-    private boolean open;
+    private final String symbol;
+    private final String venue;
+    private final Direction direction;
+    private final int originalQty;
+    private final int qty;
+    private final int price;
+    private final OrderType orderType;
+    private final int id;
+    private final String account;
+    private final Date ts;
+    private final List<Fill> fills;
+    private final int totalFilled;
+    private final boolean open;
 
     @JsonCreator
     public OrderCancelResponse(@JsonProperty("ok") boolean ok,

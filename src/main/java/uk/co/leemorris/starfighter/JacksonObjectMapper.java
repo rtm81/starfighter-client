@@ -8,9 +8,9 @@ import java.io.IOException;
 /**
  * @author lmorris
  */
-public class JacksonObjectMapper implements ObjectMapper {
+class JacksonObjectMapper implements ObjectMapper {
 
-    private com.fasterxml.jackson.databind.ObjectMapper jacksonObjectMapper;
+    private final com.fasterxml.jackson.databind.ObjectMapper jacksonObjectMapper;
 
     public JacksonObjectMapper() {
         jacksonObjectMapper = new com.fasterxml.jackson.databind.ObjectMapper();

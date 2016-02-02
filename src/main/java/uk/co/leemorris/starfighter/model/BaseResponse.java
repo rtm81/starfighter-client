@@ -6,8 +6,8 @@ package uk.co.leemorris.starfighter.model;
  */
 public abstract class BaseResponse {
 
-    private boolean ok;
-    private String error;
+    private final boolean ok;
+    private final String error;
 
     public BaseResponse(boolean ok, String error) {
         this.ok = ok;

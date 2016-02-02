@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+
+import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -20,25 +22,25 @@ import java.util.Date;
  *
  * @author lmorris
  */
-public class MultiformatDateDeserializer extends JsonDeserializer<Date> {
+public class MultiformatDateDeserializer extends JsonDeserializer<DateTime> {
 
-    private DateTimeFormatter millisecondFormat = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
-    private DateTimeFormatter millisecondFormatWithTimezone = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
+    private final static DateTimeFormatter millisecondFormat = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
+    private final static DateTimeFormatter millisecondFormatWithTimezone = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
 
     @Override
-    public Date deserialize(JsonParser jsonParser,
+    public DateTime deserialize(JsonParser jsonParser,
                             DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
 
-        Date returnDate = null;
+        DateTime returnDate = null;
         String dateText = jsonParser.getText();
 
         if(dateText.endsWith("Z") && dateText.length() == 30) {
-            returnDate = millisecondFormat.parseDateTime(dateText.substring(0, 23)).toDate();
+            returnDate = millisecondFormat.parseDateTime(dateText.substring(0, 23));
         } else if(dateText.length() == 25) {
-            returnDate = millisecondFormatWithTimezone.parseDateTime(dateText).toDate();
+            returnDate = millisecondFormatWithTimezone.parseDateTime(dateText);
         } else if(dateText.length() == 32) {
             String date = dateText.substring(0, 23) + dateText.substring(26, dateText.length());
-            returnDate = millisecondFormatWithTimezone.parseDateTime(date).toDate();
+            returnDate = millisecondFormatWithTimezone.parseDateTime(date);
         }
 
         return returnDate;

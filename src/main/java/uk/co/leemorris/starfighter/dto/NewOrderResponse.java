@@ -3,6 +3,7 @@ package uk.co.leemorris.starfighter.dto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import uk.co.leemorris.starfighter.MultiformatDateDeserializer;
 import uk.co.leemorris.starfighter.model.BaseResponse;
 import uk.co.leemorris.starfighter.model.Direction;
@@ -12,24 +13,26 @@ import uk.co.leemorris.starfighter.model.OrderType;
 import java.util.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
+
 /**
  * @author lmorris
  */
 public class NewOrderResponse extends BaseResponse {
 
-    private String symbol;
-    private String venue;
-    private Direction direction;
-    private int originalQty;
-    private int qty;
-    private int price;
-    private OrderType orderType;
-    private long id;
-    private String account;
-    private Date ts;
-    private int totalFilled;
-    private boolean open;
-    private List<Fill> fills;
+    private final String symbol;
+    private final String venue;
+    private final Direction direction;
+    private final int originalQty;
+    private final int qty;
+    private final int price;
+    private final OrderType orderType;
+    private final long id;
+    private final String account;
+    private final DateTime ts;
+    private final int totalFilled;
+    private final boolean open;
+    private final List<Fill> fills;
 
     @JsonCreator
     public NewOrderResponse(@JsonProperty("ok") boolean ok,
@@ -43,10 +46,10 @@ public class NewOrderResponse extends BaseResponse {
                             @JsonProperty("orderType") OrderType orderType,
                             @JsonProperty("id") long id,
                             @JsonProperty("account") String account,
-                            @JsonProperty("ts") @JsonDeserialize(using = MultiformatDateDeserializer.class) Date ts,
+                            @JsonProperty("ts") @JsonDeserialize(using = MultiformatDateDeserializer.class) DateTime ts,
+                            @JsonProperty("fills") List<Fill> fills,
                             @JsonProperty("totalFilled") int totalFilled,
-                            @JsonProperty("open") boolean open,
-                            @JsonProperty("fills") List<Fill> fills) {
+                            @JsonProperty("open") boolean open) {
         super(ok, error);
 
         this.symbol = symbol;
@@ -101,7 +104,7 @@ public class NewOrderResponse extends BaseResponse {
         return account;
     }
 
-    public Date getTs() {
+    public DateTime getTs() {
         return ts;
     }
 
@@ -116,4 +119,17 @@ public class NewOrderResponse extends BaseResponse {
     public List<Fill> getFills() {
         return fills;
     }
+
+
+	@Override
+	public String toString() {
+		return "NewOrderResponse [symbol=" + symbol + ", venue=" + venue
+				+ ", direction=" + direction + ", originalQty=" + originalQty
+				+ ", qty=" + qty + ", price=" + price + ", orderType="
+				+ orderType + ", id=" + id + ", account=" + account + ", ts="
+				+ ts + ", totalFilled=" + totalFilled + ", open=" + open
+				+ ", fills=" + fills + "]";
+	}
+    
+    
 }

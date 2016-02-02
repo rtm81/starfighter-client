@@ -14,7 +14,7 @@ public enum Direction {
     BUY,
     SELL;
 
-    private static Map<String, Direction> nameMap = new HashMap<>();
+    private static final Map<String, Direction> nameMap = new HashMap<>();
 
     static {
         nameMap.put("buy", BUY);

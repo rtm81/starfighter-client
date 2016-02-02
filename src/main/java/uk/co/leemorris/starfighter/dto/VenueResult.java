@@ -9,8 +9,7 @@ import uk.co.leemorris.starfighter.model.BaseResponse;
  */
 public class VenueResult extends BaseResponse {
 
-    private boolean ok;
-    private String venue;
+    private final String venue;
 
     @JsonCreator
     public VenueResult(@JsonProperty("ok") boolean ok,

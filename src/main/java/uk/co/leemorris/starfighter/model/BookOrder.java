@@ -8,9 +8,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class BookOrder {
 
-    private int price;
-    private int qty;
-    private boolean isBuy;
+    private final int price;
+    private final int qty;
+    private final boolean isBuy;
 
     @JsonCreator
     public BookOrder(@JsonProperty("price") int price,

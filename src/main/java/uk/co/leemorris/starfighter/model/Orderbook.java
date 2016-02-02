@@ -14,12 +14,12 @@ import java.util.List;
  */
 public class Orderbook extends BaseResponse {
 
-    private String venue;
-    private String symbol;
-    private Date ts;
+    private final String venue;
+    private final String symbol;
+    private final Date ts;
 
-    private List<BookOrder> bids;
-    private List<BookOrder> asks;
+    private final List<BookOrder> bids;
+    private final List<BookOrder> asks;
 
     @JsonCreator
     public Orderbook(@JsonProperty("ok") boolean ok,

@@ -4,6 +4,7 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.request.GetRequest;
 import com.mashape.unirest.request.HttpRequestWithBody;
+
 import rx.Observable;
 import uk.co.leemorris.starfighter.dto.HeartbeatResult;
 import uk.co.leemorris.starfighter.dto.NewOrderDetails;
@@ -11,6 +12,7 @@ import uk.co.leemorris.starfighter.dto.NewOrderResponse;
 import uk.co.leemorris.starfighter.dto.OrderStatusList;
 import uk.co.leemorris.starfighter.dto.VenueResult;
 import uk.co.leemorris.starfighter.dto.VenueStocks;
+import uk.co.leemorris.starfighter.model.FillSubsriptionWrapper;
 import uk.co.leemorris.starfighter.model.OrderCancelResponse;
 import uk.co.leemorris.starfighter.model.OrderStatus;
 import uk.co.leemorris.starfighter.model.Orderbook;
@@ -55,8 +57,6 @@ public class StarfighterConnection {
 
     /**
      * Check if a venue is available.
-     * @param venueName
-     * @return venue result giving venue status
      */
     public Observable<VenueResult> venueHeartbeat(String venueName) {
 
@@ -66,8 +66,6 @@ public class StarfighterConnection {
 
     /**
      * Get a list of stocks for the given venue.
-     * @param venueName
-     * @return
      */
     public Observable<VenueStocks> getStocksForVenue(String venueName) {
 
@@ -77,9 +75,6 @@ public class StarfighterConnection {
 
     /**
      * Get the orderbook for the given stock on the given venue.
-     * @param stockName
-     * @param venueName
-     * @return
      */
     public Observable<Orderbook> getOrderbookForStock(String stockName, String venueName) {
 
@@ -89,8 +84,6 @@ public class StarfighterConnection {
 
     /**
      * Create a new order.
-     * @param details
-     * @return
      */
     public Observable<NewOrderResponse> newOrder(NewOrderDetails details) {
 
@@ -101,9 +94,6 @@ public class StarfighterConnection {
 
     /**
      * Get a quote for the given stock.
-     * @param stock
-     * @param venue
-     * @return
      */
     public Observable<StockQuote> getQuoteForStock(String stock, String venue) {
 
@@ -113,10 +103,6 @@ public class StarfighterConnection {
 
     /**
      * Get the status of the given order.
-     * @param venueName
-     * @param stock
-     * @param orderId
-     * @return
      */
     public Observable<OrderStatus> getOrderStatus(String venueName, String stock, int orderId) {
 
@@ -127,10 +113,6 @@ public class StarfighterConnection {
 
     /**
      * Request a cancellation of the given order.
-     * @param venueName
-     * @param stock
-     * @param orderId
-     * @return
      */
     public Observable<OrderCancelResponse> cancelOrder(String venueName, String stock, int orderId) {
 
@@ -141,9 +123,6 @@ public class StarfighterConnection {
 
     /**
      * Get all available order statuses.
-     * @param venueName
-     * @param account
-     * @return
      */
     public Observable<OrderStatusList> getAllOrderStatuses(String venueName, String account) {
 
@@ -154,10 +133,6 @@ public class StarfighterConnection {
 
     /**
      * Get all available order statuses for the given stock.
-     * @param venueName
-     * @param account
-     * @param stock
-     * @return
      */
     public Observable<OrderStatusList> getAllOrderStatuses(String venueName, String account, String stock) {
 
@@ -166,14 +141,10 @@ public class StarfighterConnection {
                 .map(HttpResponse::getBody);
     }
 
-    private List<QuoteSubscription> subscriptions = new ArrayList<>();
+    private final List<QuoteSubscription> subscriptions = new ArrayList<>();
 
     /**
      * Subscribe to ticker tape for a specific symbol.
-     * @param venue
-     * @param account
-     * @param symbol
-     * @return
      */
     public Observable<StockQuote> subscribeToQuotes(String venue, String account, String symbol) {
 
@@ -182,12 +153,19 @@ public class StarfighterConnection {
 
         return subscription.logon(baseWebsocketUrl, account, venue, symbol);
     }
+    
+    /**
+     * Subscribe to ticker tape for a specific symbol.
+     */
+    public Observable<FillSubsriptionWrapper> subscribeToFills(String venue, String account, String symbol) {
+    	
+    	FillSubscription subscription = new FillSubscription();
+    	
+    	return subscription.logon(baseWebsocketUrl, account, venue, symbol);
+    }
 
     /**
      * Subscribe to all symbols on the given venue.
-     * @param venue
-     * @param account
-     * @return
      */
     public Observable<StockQuote> subscribeToQuotes(String venue, String account) {
         QuoteSubscription subscription = new QuoteSubscription();
