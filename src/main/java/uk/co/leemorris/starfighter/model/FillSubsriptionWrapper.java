@@ -3,6 +3,8 @@ package uk.co.leemorris.starfighter.model;
 import java.util.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
+
 import uk.co.leemorris.starfighter.MultiformatDateDeserializer;
 import uk.co.leemorris.starfighter.dto.NewOrderResponse;
 
@@ -60,10 +62,10 @@ public class FillSubsriptionWrapper extends BaseResponse {
 	private final int incomingId;
 	private final int price;
 	private final int filled;
-	private final Date filledAt;
+	private final DateTime filledAt;
 	private final boolean standingComplete;
 	private final boolean incomingComplete;
-	private final List<NewOrderResponse> order;
+	private final NewOrderResponse order;
 
 	public FillSubsriptionWrapper(@JsonProperty(value="ok") boolean ok,
                                     @JsonProperty(value="error", required=false) String error,
@@ -71,12 +73,12 @@ public class FillSubsriptionWrapper extends BaseResponse {
                                     @JsonProperty("venue") String venue,
                                     @JsonProperty("symbol") String symbol,
                                     // TODO: order
-                                    @JsonProperty("order") List<NewOrderResponse> order,
+                                    @JsonProperty("order") NewOrderResponse order,
                                     @JsonProperty("standingId") int standingId,
                                     @JsonProperty("incomingId") int incomingId,
                                     @JsonProperty("price") int price,
                                     @JsonProperty("filled") int filled,
-                                    @JsonProperty("filledAt") @JsonDeserialize(using = MultiformatDateDeserializer.class) Date filledAt,
+                                    @JsonProperty("filledAt") @JsonDeserialize(using = MultiformatDateDeserializer.class) DateTime filledAt,
                                     @JsonProperty("standingComplete") boolean standingComplete,
                                     @JsonProperty("incomingComplete") boolean incomingComplete
                                     ) {
@@ -118,7 +120,7 @@ public class FillSubsriptionWrapper extends BaseResponse {
 		return price;
 	}
 
-	public Date getFilledAt() {
+	public DateTime getFilledAt() {
 		return filledAt;
 	}
 
@@ -142,7 +144,7 @@ public class FillSubsriptionWrapper extends BaseResponse {
 				+ standingComplete + ", incomingComplete=" + incomingComplete + "]";
 	}
 
-	public List<NewOrderResponse> getOrder() {
+	public NewOrderResponse getOrder() {
 		return order;
 	}
 

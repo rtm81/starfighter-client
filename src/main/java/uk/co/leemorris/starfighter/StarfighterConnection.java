@@ -155,7 +155,7 @@ public class StarfighterConnection {
     }
     
     /**
-     * Subscribe to ticker tape for a specific symbol.
+     * Subscribe to fills.
      */
     public Observable<FillSubsriptionWrapper> subscribeToFills(String venue, String account, String symbol) {
     	
